@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site Measurement Converter App</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background: #e9ecef;
+      padding: 20px;
+    }
+    h2 {
+      color: #343a40;
+      text-align: center;
+    }
+    .tab {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .tab button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    .tab button:hover, .tab button.active {
+      background: #0056b3;
+    }
+    .tabcontent {
+      display: none;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    input, select, button {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #ced4da;
+    }
+    .result {
+      background: #f8f9fa;
+      padding: 15px;
+      margin-top: 20px;
+      border-left: 5px solid #007bff;
+    }
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    .calculator-grid button {
+      padding: 20px;
+      font-size: 18px;
+    }
+    #display {
+      text-align: right;
+      font-size: 24px;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: white;
+    }
+     @media (max-width: 2080px) {
+            body {
+                margin: 200px;
+            }
+          }
+             @media (max-width: 768px) {
+            body {
+                margin: 200px;
+            }
+          }
+      </style>
+</head>
+<body>
+  <h2>Site Measurement Converter App</h2>
+  <div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'RMTCalc')">Running Meter Calculator</button>
+    <button class="tablinks" onclick="openTab(event, 'FullCalc')">Detailed Measurement Calculator</button>
+    <button class="tablinks" onclick="openTab(event, 'TruckLoad')">Truck Load Calculator</button>
+    <button class="tablinks" onclick="openTab(event, 'BasicCalc')">Basic Calculator</button>
+  </div>
+
+  <div id="RMTCalc" class="tabcontent">
+    <h3>Running Meter & Price Calculator</h3>
+    <label for="area">Enter Area:</label>
+    <input type="number" id="area" placeholder="Enter area" step="any">
+    <label for="unit">Select Unit:</label>
+    <select id="unit">
+      <option value="m2">Square Meters (m²)</option>
+      <option value="ft2">Square Feet (ft²)</option>
+      <option value="cm2">Square Centimeters (cm²)</option>
+    </select>
+    <label for="price">Price per Running Meter:</label>
+    <input type="number" id="price" placeholder="Enter price" step="any">
+    <button onclick="calculateRMT()">Calculate</button>
+    <div class="result" id="rmtResult"></div>
+  </div>
+
+  <div id="FullCalc" class="tabcontent">
+    <h3>Detailed Measurement Calculator</h3>
+    <div id="entries"></div>
+    <button onclick="addMeasurement()">Add Measurement</button>
+    <button onclick="calculateDetailed()">Calculate</button>
+    <div class="result" id="detailedResult"></div>
+  </div>
+
+  <div id="TruckLoad" class="tabcontent">
+    <h3>Truck Load Calculator</h3>
+    <label>Total Bags Needed:</label>
+    <input type="number" id="bagCount">
+    <label>Length per Bag (m):</label>
+    <input type="number" id="bagLength" step="any">
+    <label>Width per Bag (m):</label>
+    <input type="number" id="bagWidth" step="any">
+    <label>Height per Bag (m):</label>
+    <input type="number" id="bagHeight" step="any">
+    <label>Truck Length (Buwanvo in meters):</label>
+    <input type="number" id="truckLength" step="any">
+    <label>Truck Width (Obugazi in meters):</label>
+    <input type="number" id="truckWidth" step="any">
+    <label>Truck Height (Obusitufu in meters):</label>
+    <input type="number" id="truckHeight" step="any">
+    <button onclick="calculateTruckArrangement()">Calculate</button>
+    <div class="result" id="truckResult"></div>
+  </div>
+
+  <div id="BasicCalc" class="tabcontent">
+    <h3>Basic Calculator</h3>
+    <div id="display">0</div>
+    <div class="calculator-grid">
+      <button onclick="appendToDisplay('7')">7</button>
+      <button onclick="appendToDisplay('8')">8</button>
+      <button onclick="appendToDisplay('9')">9</button>
+      <button onclick="appendToDisplay('/')">÷</button>
+      <button onclick="appendToDisplay('4')">4</button>
+      <button onclick="appendToDisplay('5')">5</button>
+      <button onclick="appendToDisplay('6')">6</button>
+      <button onclick="appendToDisplay('*')">×</button>
+      <button onclick="appendToDisplay('1')">1</button>
+      <button onclick="appendToDisplay('2')">2</button>
+      <button onclick="appendToDisplay('3')">3</button>
+      <button onclick="appendToDisplay('-')">−</button>
+      <button onclick="appendToDisplay('0')">0</button>
+      <button onclick="appendToDisplay('.')">.</button>
+      <button onclick="calculateBasic()">=</button>
+      <button onclick="appendToDisplay('+')">+</button>
+      <button onclick="clearDisplay()" style="grid-column: span 4; background: #dc3545; color: white;">C</button>
+    </div>
+  </div>
+
+  <script>
+    function openTab(evt, tabName) {
+      const tabcontent = document.getElementsByClassName("tabcontent");
+      for (let i = 0; i < tabcontent.length; i++) tabcontent[i].style.display = "none";
+      const tablinks = document.getElementsByClassName("tablinks");
+      for (let i = 0; i < tablinks.length; i++) tablinks[i].classList.remove("active");
+      document.getElementById(tabName).style.display = "block";
+      evt.currentTarget.classList.add("active");
+    }
+
+    function calculateRMT() {
+      const area = parseFloat(document.getElementById('area').value);
+      const unit = document.getElementById('unit').value;
+      const price = parseFloat(document.getElementById('price').value);
+      if (isNaN(area) || isNaN(price)) {
+        document.getElementById('rmtResult').innerHTML = "Please enter valid numbers.";
+        return;
+      }
+      const conversions = { 'm2': 1, 'ft2': 0.092903, 'cm2': 0.0001 };
+      const areaInM2 = area * conversions[unit];
+      const rmt = areaInM2 / 0.6;
+      const totalPrice = rmt * price;
+      document.getElementById('rmtResult').innerHTML = `
+        <strong>Running Meters:</strong> ${rmt.toFixed(2)} m<br>
+        <strong>Total Price:</strong> $${totalPrice.toFixed(2)}
+      `;
+    }
+
+    function addMeasurement() {
+      const container = document.getElementById("entries");
+      const entry = document.createElement("div");
+      entry.innerHTML = `
+        <input type="number" placeholder="Length">
+        <input type="number" placeholder="Width">
+        <select>
+          <option value="cm">cm</option>
+          <option value="m">m</option>
+          <option value="ft">ft</option>
+        </select>
+        <input type="text" placeholder="Description">
+      `;
+      container.appendChild(entry);
+    }
+
+    function calculateTruckArrangement() {
+      const bagCount = parseInt(document.getElementById('bagCount').value);
+      const bagLength = parseFloat(document.getElementById('bagLength').value);
+      const bagWidth = parseFloat(document.getElementById('bagWidth').value);
+      const bagHeight = parseFloat(document.getElementById('bagHeight').value);
+      const truckLength = parseFloat(document.getElementById('truckLength').value);
+      const truckWidth = parseFloat(document.getElementById('truckWidth').value);
+      const truckHeight = parseFloat(document.getElementById('truckHeight').value);
+
+      if (isNaN(bagCount) || isNaN(bagLength) || isNaN(bagWidth) || isNaN(bagHeight) ||
+          isNaN(truckLength) || isNaN(truckWidth) || isNaN(truckHeight)) {
+        document.getElementById('truckResult').innerText = 'Please enter all values correctly.';
+        return;
+      }
+
+      const countLength = Math.floor(truckLength / bagLength);
+      const countWidth = Math.floor(truckWidth / bagWidth);
+      const perLayer = countLength * countWidth;
+      const layers = Math.ceil(bagCount / perLayer);
+      const usedHeight = layers * bagHeight;
+
+      document.getElementById('truckResult').innerHTML = `
+        <strong>Bags per Layer (Length × Width):</strong> ${countLength} × ${countWidth} = ${perLayer}<br>
+        <strong>Layers Needed:</strong> ${layers}<br>
+        <strong>Total Height Used:</strong> ${usedHeight.toFixed(2)} m
+      `;
+    }
+
+    function appendToDisplay(value) {
+      const display = document.getElementById('display');
+      if (display.innerText === '0') {
+        display.innerText = value;
+      } else {
+        display.innerText += value;
+      }
+    }
+
+    function clearDisplay() {
+      document.getElementById('display').innerText = '0';
+    }
+
+    function calculateBasic() {
+      try {
+        const result = eval(document.getElementById('display').innerText);
+        document.getElementById('display').innerText = result;
+      } catch {
+        document.getElementById('display').innerText = 'Error';
+      }
+    }
+
+    document.querySelectorAll(".tab button")[0].click();
+  </script>
+</body>
+</html>
