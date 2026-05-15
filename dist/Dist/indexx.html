@@ -1,87 +1,477 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MY RESUME</title>
-    <link rel="stylesheet" href="/Dist/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Okethcwinyu Innocent Palamena — Resume</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0e0d;
+    --ink-light: #4a4540;
+    --ink-faint: #9a9390;
+    --cream: #f8f5f0;
+    --warm-white: #fdfcfa;
+    --gold: #b8945a;
+    --gold-light: #d4b07a;
+    --rule: #e0d8ce;
+    --accent: #2c4a3e;
+  }
+
+  @media print {
+    body { background: white; }
+    .page { box-shadow: none; margin: 0; }
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    background: #e8e2d9;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    color: var(--ink);
+  }
+
+  .page {
+    width: 860px;
+    max-width: 100%;
+    background: var(--warm-white);
+    box-shadow: 0 20px 80px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08);
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 1100px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── LEFT SIDEBAR ── */
+  .sidebar {
+    background: var(--accent);
+    color: #e8dfd4;
+    padding: 48px 28px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sidebar::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    pointer-events: none;
+  }
+
+  .sidebar::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+    pointer-events: none;
+  }
+
+  .avatar-wrap {
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: 2.5px solid var(--gold-light);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--gold-light);
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 2px;
+    overflow: hidden;
+  }
+
+  .avatar-wrap img {
+    width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+  }
+
+  .sidebar-name {
+    font-size: 13px;
+    font-family: 'DM Mono', monospace;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  .sidebar-section {
+    margin-bottom: 28px;
+  }
+
+  .sidebar-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sidebar-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.35;
+  }
+
+  .sidebar-item {
+    font-size: 13.5px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: #d4ccbf;
+    margin-bottom: 4px;
+  }
+
+  .sidebar-item a {
+    color: #d4ccbf;
+    text-decoration: none;
+    word-break: break-all;
+  }
+
+  .sidebar-item a:hover { color: var(--gold-light); }
+
+  .skill-bar-wrap { margin-bottom: 10px; }
+  .skill-name { font-size: 12.5px; font-weight: 300; color: #d4ccbf; margin-bottom: 4px; }
+  .skill-bar {
+    height: 3px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .skill-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 2px;
+    animation: barGrow 1s ease both;
+    animation-delay: 0.4s;
+  }
+  @keyframes barGrow { from { width: 0 !important; } }
+
+  /* ── RIGHT MAIN ── */
+  .main {
+    padding: 52px 44px 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .hero {
+    border-bottom: 1.5px solid var(--rule);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+  }
+
+  .hero-name {
+    font-size: 42px;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .hero-name span {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 14px;
+  }
+
+  .hero-summary {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--ink-light);
+    line-height: 1.75;
+    font-style: italic;
+    max-width: 480px;
+  }
+
+  /* ── SECTIONS ── */
+  .section { margin-bottom: 28px; }
+
+  .section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  /* Entry blocks */
+  .entry { margin-bottom: 16px; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; }
+  .entry-title { font-size: 16px; font-weight: 600; color: var(--ink); grid-column: 1; }
+  .entry-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-faint);
+    grid-column: 2;
+    grid-row: 1;
+    white-space: nowrap;
+    padding-top: 3px;
+  }
+  .entry-sub { font-size: 13.5px; font-style: italic; color: var(--gold); grid-column: 1; margin-bottom: 4px; }
+  .entry-body { font-size: 14px; font-weight: 300; color: var(--ink-light); line-height: 1.7; grid-column: 1 / -1; }
+
+  .entry-body ul { padding-left: 16px; }
+  .entry-body li { margin-bottom: 3px; list-style: none; padding-left: 12px; position: relative; }
+  .entry-body li::before { content: '–'; position: absolute; left: 0; color: var(--gold); }
+
+  /* Reference cards */
+  .ref-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .ref-card {
+    border: 1px solid var(--rule);
+    padding: 12px 14px;
+    border-left: 3px solid var(--gold);
+  }
+  .ref-name { font-size: 15px; font-weight: 600; color: var(--ink); }
+  .ref-role { font-size: 13px; font-style: italic; color: var(--gold); }
+  .ref-org { font-size: 12.5px; font-weight: 300; color: var(--ink-light); }
+
+  /* Footer note */
+  .footer-note {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.1em;
+    text-align: right;
+  }
+
+  @media (max-width: 640px) {
+    .page { grid-template-columns: 1fr; }
+    .sidebar { padding: 32px 24px; }
+    .main { padding: 32px 24px; }
+    .hero-name { font-size: 30px; }
+    .ref-grid { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
 <body>
-    
-<body class="  lg:bg-blue-500 sm:bg-pink-400 md:bg-green-500 xl:bg-red-400 2xl:bg-red-400">
-    <div class="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-2 xl: grid-cols-2 2xl:grid-cols-2 ml-40 mr-40 mt-10 sm:grid grid-cols-span-1 font-bold sm: grid-rows-1">
-        <div class=" bg-gray-300">
-            <div class="pl-6">
-                <img class="h-40 w-40 rounded-full  flexjustify-center p-4 " src="inno" >
-                <h1>OKETHCWINYU INNOCENT<br><span class="text-indigo-600">PALAMENA</span><br></h1>
-    
-                <h2 class="text-red-500 font-bold" >CONTACT</h2>
-                <p class="text-purple-500"><br>0761073821<br>0705606889<br>
-                    Email adress:
-                    <a href="innoxoketh@gmail.com">innoxoketh@gmail.com</a></p>
-            </div>
-        
-            <hr class="border-t-4 border-yellow-700 pt-8">
-            <div class="p-4">
-                        <h2 class="text-red-400 font-bold"> COMMUNICATION</h2>
-           <P>I hava worked with many organizations as a speeker;</P> 
-          
-            <ul class="list-disc list-outside pl-5" >
-            <li>school I served as the UNSA speeker.</li> <br>
-          <LI>Worked with Educate Uganda as the school speeker for the clud.</LI>  
-          <li>Served as the Zombo district UNSA speeker</li>  
-          <li>Shared many meetings at different conpany where I workded eg super terrazal, Sunventures among others</li>  
-        </ul>
-    </div>
-        <hr class="border-t-4 border-yellow-700">
-        <div class="p-4">
-           <h2 class="font-bold text-red-600">LEADERSHIP SKILLS</h2>
-           <ul>I served as a leader starting from my primary school up to highschool
-            As a time keeper at Otrugang boys primary school
-            As the UNSA class representative in paidha sec sch
-            As the UNSA class representative in paidha sec sch
-            As the school UNSA speeker for year 2022-2023 in Paidha sec sch</ul>
-        </div>
-            <hr class="border-t-4 border-yellow-700 p-5">
-        </div>
 
+<div class="page">
 
-        <div class="bg-white p-8">
-                <div>
-        <h2 class="text-red-600">EDUCATION</h2>
-        <P>Current Iam a student at muni university for information Technology.</P>
-        <h3>Education Qulifications</h3>
-        <OL  class="list-decimal list-inside pl-5">
-            <li>results at otrugang boys primary school</li> 
-            <li> UCE results at paidha secondary school</li>
-            <li>UACE at Paidha secondary school</li> 
-            <li> Certificate in mable and granite fixingand related works at super Terrazal Uganda limited</li>
-        </OL>
-    </div>
-    <div>
-        <hr class="border-t-4 border-yellow-700 pm-5">
-        <h2 class="text-red-600">EXPERIENCE</h2>
-        <p>I gained a working expirience of 3 years in mable and granite work in different company listed bellow
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="avatar-wrap">OIP</div>
+    <div class="sidebar-name">Okethcwinyu<br>Innocent<br>Palamena</div>
 
-        </p>
-        <ol class="list-decimal list-inside pl-5">
-            <li> terrazal Uganda limited</li>
-            <li> Sunventures mable and granite limited</li>
-            <li> Noordin investments uganda</li> 
-         </ol>
-        </div>
-         <hr class="border-t-4 border-yellow-700 pm-5">
-         <div>
-            <h2 class="text-red-600">REFERENCES</h2>
-            <p>Mr SSEMAKURA NOORDIN DIRECTOR Noordin investments<br>
-                Mr OGENTHO AMOS TEACHER Paidha secondary school</p>
-            </div>
-      <hr class="border-t-4 border-yellow-700 mt-4">                </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Contact</div>
+      <div class="sidebar-item">+256 761 073 821</div>
+      <div class="sidebar-item">+256 705 606 889</div>
+      <div class="sidebar-item"><a href="mailto:innoxoketh@gmail.com">innoxoketh@gmail.com</a></div>
+      <div class="sidebar-item">Muni University, Arua</div>
+      <div class="sidebar-item">Uganda</div>
     </div>
 
-    
-</body>
-</html>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Technical Skills</div>
+      <div class="skill-bar-wrap">
+        <div class="skill-name">Python / Django</div>
+        <div class="skill-bar"><div class="skill-bar-fill" style="width:80%"></div></div>
+      </div>
+      <div class="skill-bar-wrap">
+        <div class="skill-name">HTML / CSS / JS</div>
+        <div class="skill-bar"><div class="skill-bar-fill" style="width:75%"></div></div>
+      </div>
+      <div class="skill-bar-wrap">
+        <div class="skill-name">PostgreSQL</div>
+        <div class="skill-bar"><div class="skill-bar-fill" style="width:65%"></div></div>
+      </div>
+      <div class="skill-bar-wrap">
+        <div class="skill-name">Bootstrap / Tailwind</div>
+        <div class="skill-bar"><div class="skill-bar-fill" style="width:70%"></div></div>
+      </div>
+      <div class="skill-bar-wrap">
+        <div class="skill-name">GitHub / Version Control</div>
+        <div class="skill-bar"><div class="skill-bar-fill" style="width:65%"></div></div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Soft Skills</div>
+      <div class="sidebar-item">Public Speaking</div>
+      <div class="sidebar-item">Leadership & Mentorship</div>
+      <div class="sidebar-item">Team Collaboration</div>
+      <div class="sidebar-item">Research & Analysis</div>
+      <div class="sidebar-item">Problem Solving</div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Languages</div>
+      <div class="sidebar-item">English — Fluent</div>
+      <div class="sidebar-item">Lugbara — Native</div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <div class="hero">
+      <div class="hero-title">Information Technology Student &amp; Software Developer</div>
+      <h1 class="hero-name">Okethcwinyu <span>Innocent</span><br>Palamena</h1>
+      <p class="hero-summary">
+        Undergraduate IT student at Muni University with hands-on software development experience,
+        three years of industry work in construction technology, and a strong record of youth leadership
+        and public speaking across Western Uganda.
+      </p>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="section">
+      <div class="section-title">Education</div>
+
+      <div class="entry">
+        <div class="entry-title">Bachelor of Science in Information Technology</div>
+        <div class="entry-date">2023 – Present</div>
+        <div class="entry-sub">Muni University — Arua, Uganda</div>
+        <div class="entry-body">
+          Currently pursuing undergraduate studies in IT with a focus on software engineering, database systems, and web development. Principal Investigator on the EduPath-Uganda research project — a digital decision support system for A-Level subject guidance.
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-title">Uganda Advanced Certificate of Education (UACE)</div>
+        <div class="entry-date">2022</div>
+        <div class="entry-sub">Paidha Secondary School — Zombo District</div>
+        <div class="entry-body">Completed A-Level studies. Held the position of UNSA School Speaker for 2022–2023.</div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-title">Uganda Certificate of Education (UCE)</div>
+        <div class="entry-date">2020</div>
+        <div class="entry-sub">Paidha Secondary School — Zombo District</div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-title">Primary Leaving Examination (PLE)</div>
+        <div class="entry-date">2016</div>
+        <div class="entry-sub">Otrugang Boys Primary School</div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-title">Certificate in Marble &amp; Granite Fixing and Related Works</div>
+        <div class="entry-date">2021</div>
+        <div class="entry-sub">Super Terrazal Uganda Limited</div>
+      </div>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div class="section">
+      <div class="section-title">Work Experience</div>
+
+      <div class="entry">
+        <div class="entry-title">Marble &amp; Granite Technician</div>
+        <div class="entry-date">2021 – 2023</div>
+        <div class="entry-sub">Super Terrazal Uganda Limited / Sunventures Marble &amp; Granite / Noordin Investments Uganda</div>
+        <div class="entry-body">
+          <ul>
+            <li>Accumulated 3 years of professional experience in marble and granite installation across three companies.</li>
+            <li>Completed certification and applied technical skills in real construction projects across Uganda.</li>
+            <li>Developed strong attention to detail, time management, and teamwork in fast-paced site environments.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEADERSHIP & COMMUNICATION -->
+    <div class="section">
+      <div class="section-title">Leadership &amp; Communication</div>
+
+      <div class="entry">
+        <div class="entry-title">UNSA School Speaker</div>
+        <div class="entry-date">2022 – 2023</div>
+        <div class="entry-sub">Paidha Secondary School</div>
+        <div class="entry-body">Represented the student body as school speaker; facilitated student assemblies, moderated debates, and liaised between students and school administration.</div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-title">Zombo District UNSA Speaker</div>
+        <div class="entry-date">2022</div>
+        <div class="entry-sub">Zombo District</div>
+        <div class="entry-body">Represented district-level student interests and participated in regional educational forums.</div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-title">School Speaker — Educate Uganda</div>
+        <div class="entry-date">2021</div>
+        <div class="entry-sub">Educate Uganda Programme</div>
+        <div class="entry-body">Served as school club speaker for the Educate Uganda initiative, promoting youth education and community engagement.</div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-title">Time Keeper</div>
+        <div class="entry-date">2015 – 2016</div>
+        <div class="entry-sub">Otrugang Boys Primary School</div>
+        <div class="entry-body">Appointed as time keeper, demonstrating early leadership responsibility and organisational discipline.</div>
+      </div>
+    </div>
+
+    <!-- REFERENCES -->
+    <div class="section">
+      <div class="section-title">References</div>
+      <div class="ref-grid">
+        <div class="ref-card">
+          <div class="ref-name">Mr Ssemakura Noordin</div>
+          <div class="ref-role">Director</div>
+          <div class="ref-org">Noordin Investments Uganda</div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-name">Mr Ogentho Amos</div>
+          <div class="ref-role">Teacher</div>
+          <div class="ref-org">Paidha Secondary School</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">References available upon request &nbsp;·&nbsp; Updated May 2026</div>
+
+  </main>
+</div>
+
 </body>
 </html>
